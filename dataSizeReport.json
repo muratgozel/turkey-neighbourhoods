@@ -1,0 +1,11 @@
+{
+  "core": {},
+  "extra": {
+    "neighbourhoods": 1794.18,
+    "zipcodes": 19.75,
+    "cities": 0.84,
+    "districts": 11.74,
+    "plates": 0.41,
+    "cityPlates": 1.25
+  }
+}
