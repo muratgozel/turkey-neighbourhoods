@@ -12,6 +12,7 @@ kit.addKit(kitType)
 kit.addKit(kitObject)
 kit.addKit(kitError)
 kit.addKit(kitValidator)
+const {updateSizeReport} = require('../../helpers')
 
 const url = 'http://postakodu.ptt.gov.tr/Dosyalar/pk_list.zip'
 const filename = 'index.json'
@@ -96,6 +97,7 @@ function fetchAndParse() {
                     return obj
                   })
                   fs.writeFileSync(dest, JSON.stringify(json))
+                  updateSizeReport(targetFilePath, 'core')
 
                   return resolve()
                 })

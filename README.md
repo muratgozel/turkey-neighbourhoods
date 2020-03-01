@@ -1,10 +1,10 @@
 # turkey-neighbourhoods
 Always up to date names of cities, districts and neighbourhoods in Turkey.
 
-Data is available as JSON and being fetched regularly from ptt.gov.tr which is a reliable source for Turkey divisions.
+Data is available as JSON and being fetched regularly from a reliable source.
 
 **In Turkish**
-JSON formatında, her zaman güncel, Türkiye şehir, posta kodu, plaka kodu, ilçe ve mahalle listesi. Veri ptt.gov.tr'den alınıyor. Alınan veri farklı şekillerde derlenerek yazılımcının kullanımına hazır hale getiriliyor.
+JSON formatında, her zaman güncel, Türkiye şehir, posta kodu, plaka kodu, ilçe ve mahalle listesi. Veri düzenli olarak güncellenen güvenilir kaynaktan alınıyor. Alınan veri farklı şekillerde derlenerek yazılımcının kullanımına hazır hale getiriliyor.
 
 ## Install
 Through npm:
