@@ -1,5 +1,7 @@
 {
-  "core": {},
+  "core": {
+    "index": 8527.96
+  },
   "extra": {
     "neighbourhoods": 1794.18,
     "zipcodes": 19.75,

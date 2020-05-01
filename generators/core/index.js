@@ -88,7 +88,7 @@ function fetchAndParse() {
                     return obj
                   })
                   fs.writeFileSync(dest, JSON.stringify(json))
-                  updateSizeReport(targetFilePath, 'core')
+                  updateSizeReport(dest, 'core')
 
                   return resolve()
                 })
