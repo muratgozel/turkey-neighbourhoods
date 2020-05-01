@@ -1,14 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const kit = require('@basekits/core')
-const kitType = require('@basekits/kit-type')
-const kitObject = require('@basekits/kit-object')
-const kitError = require('@basekits/kit-error')
-const kitValidator = require('@basekits/kit-validator')
-kit.addKit(kitType)
-kit.addKit(kitObject)
-kit.addKit(kitError)
-kit.addKit(kitValidator)
+const {validationkit} = require('basekits')
 const {updateSizeReport} = require('../../helpers')
 
 const dataFilePath = path.join('data/core', 'index.json')
@@ -16,7 +8,7 @@ const targetFilePath = path.join('data/extra', 'plates.json')
 
 const data = JSON.parse( fs.readFileSync(dataFilePath, 'utf8') )
 const licensePlateCodes = data
-  .filter(c => kit.isNotEmpty(c) && kit.isNotEmpty(c.PK))
+  .filter(c => validationkit.isNotEmpty(c) && validationkit.isNotEmpty(c.PK))
   .map(obj => obj.PK.slice(0, 2))
   .filter((c, i, arr) => arr.indexOf(c) === i)
 

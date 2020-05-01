@@ -3,6 +3,7 @@ module.exports = {
     es6: true
   },
   parserOptions: {
-    ecmaVersion: 2017
+    ecmaVersion: 2017,
+    sourceType: 'module'
   }
 }

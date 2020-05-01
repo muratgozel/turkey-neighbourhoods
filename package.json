@@ -1,6 +1,6 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "data/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "update-core": "node generators/core/index.js",
     "update-extra": "node generators/extra/neighbourhoods.js && node generators/extra/zipcodes.js && node generators/extra/cities.js && node generators/extra/districts.js && node generators/extra/plates.js && node generators/extra/cityPlates.js",
     "update-all": "npm run update-core && npm run update-extra",
-    "release": "bash dev/push.sh"
+    "commit": "node dev/commit.js commit"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,15 @@
     "turkiye-il-ilce-listesi",
     "turkiye-mahalle-listesi"
   ],
-  "author": "Murat Gözel <murat@gozel.com.tr>",
+  "author": {
+    "name": "Murat Gözel",
+    "email": "murat@gozel.com.tr",
+    "url": "https://gozel.com.tr"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/muratgozel"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/muratgozel/turkey-neighbourhoods/issues"
@@ -31,13 +39,11 @@
   "homepage": "https://github.com/muratgozel/turkey-neighbourhoods#readme",
   "dependencies": {},
   "devDependencies": {
-    "@basekits/core": "^1.0.0",
-    "@basekits/kit-error": "^1.0.3",
-    "@basekits/kit-object": "^1.0.1",
-    "@basekits/kit-type": "^1.0.0",
-    "@basekits/kit-validator": "^1.0.0",
+    "basekits": "^1.0.2",
     "node-fetch": "^2.6.0",
-    "node-stream-zip": "^1.9.1",
-    "xlsx": "^0.15.5"
+    "node-stream-zip": "^1.9.2",
+    "semver": "^7.3.2",
+    "xlsx": "^0.16.0",
+    "yargs": "^15.3.1"
   }
 }
