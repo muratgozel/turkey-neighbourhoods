@@ -3,7 +3,8 @@ const path = require('path')
 const fetch = require('node-fetch')
 const StreamZip = require('node-stream-zip')
 const XLSX = require('xlsx')
-const {updateSizeReport} = require('../../helpers')
+const {updateSizeReport, casing} = require('../../helpers')
+const {titlecase} = casing
 
 const url = 'http://postakodu.ptt.gov.tr/Dosyalar/pk_list.zip'
 const filename = 'index.json'
@@ -80,10 +81,15 @@ function fetchAndParse() {
                   const worksheet = workbook.Sheets[workbook.SheetNames[0]]
                   const json = XLSX.utils.sheet_to_json(worksheet)
                   const trimmed = json.map(function(obj) {
-                    obj.il = obj.il.trim()
-                    obj['ilçe'] = obj['ilçe'].trim()
-                    obj.semt_bucak_belde = obj.semt_bucak_belde.trim()
-                    obj.Mahalle = obj.Mahalle.trim()
+                    const neighbourhood = obj.Mahalle
+                      .trim()
+                      .replace(' MAH', '')
+                      .replace(' KÖYÜ', '')
+
+                    obj.il = titlecase(obj.il.trim())
+                    obj['ilçe'] = titlecase(obj['ilçe'].trim())
+                    obj.semt_bucak_belde = titlecase(obj.semt_bucak_belde.trim())
+                    obj.Mahalle = titlecase(neighbourhood)
                     obj.PK = obj.PK.trim()
                     return obj
                   })

@@ -1,12 +1,12 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "data/index.js",
   "scripts": {
     "test": "for i in tests/*.js; do node \"$i\"; done",
     "update-core": "node generators/core/index.js",
-    "update-extra": "node generators/extra/neighbourhoods.js && node generators/extra/zipcodes.js && node generators/extra/cities.js && node generators/extra/districts.js && node generators/extra/plates.js && node generators/extra/cityPlates.js",
+    "update-extra": "node generators/extra/zipcodeList.js && node generators/extra/citiesByCode.js && node generators/extra/cityCodeList.js && node generators/extra/cityList.js && node generators/extra/neighbourhoodsByDistrictAndCity.js && node generators/extra/divisions.js",
     "update-all": "npm run update-core && npm run update-extra",
     "commit": "node dev/commit.js commit"
   },

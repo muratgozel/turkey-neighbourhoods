@@ -1,3 +1,4 @@
 module.exports = {
-  updateSizeReport: require('./updateSizeReport')
+  updateSizeReport: require('./updateSizeReport'),
+  casing: require('./casing')
 }

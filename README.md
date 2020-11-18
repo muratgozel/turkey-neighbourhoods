@@ -15,24 +15,30 @@ Through npm:
 ```sh
 npm i turkey-neighbourhoods
 ```
+or you clone the repository directly. The generated data available inside the `data` folder.
 
 ## Using Generated Data
-The generated data is available under `data` directory. It's pre-generated and stays up to date by regenerating the data on each month. You can import whichever data you want into your project by just requiring:
+The generated data is available under `data` directory. There are two folders here:
+1. `core` which is the data as it is fetched from a remote source in json format.
+2. `extra` contains collections generated from a data inside `core`.
+Generated data is pre-generated and always up-to-date. You can import whichever data you want into your project by just requiring:
 ```js
 // raw json data as fetched
 const coreData = require('turkey-neighbourhoods/data/core/index.json')
-// list of cities
-const cities = require('turkey-neighbourhoods/data/extra/cities.json')
-// license plates by city name
-const cityPlates = require('turkey-neighbourhoods/data/extra/cityPlates.json')
-// districts by city
-const districts = require('turkey-neighbourhoods/data/extra/districts.json')
+// list of city names
+const cities = require('turkey-neighbourhoods/data/extra/city_list.json')
+// list of cities by city code (city code is plate number in Turkey)
+const citiesByCode = require('turkey-neighbourhoods/data/extra/cities_by_code.json')
+// list city codes
+const cityCodes = require('turkey-neighbourhoods/data/extra/city_code_list.json')
+// districts by city code
+const districts = require('turkey-neighbourhoods/data/extra/districts_by_city.json')
 // neighbourhoods by district and city
 const neighbourhoods = require('turkey-neighbourhoods/data/extra/neighbourhoods.json')
-// license plates list
-const plates = require('turkey-neighbourhoods/data/extra/plates.json')
 // zip codes
-const zipcodes = require('turkey-neighbourhoods/data/extra/zipcodes.json')
+const zipcodes = require('turkey-neighbourhoods/data/extra/zipcodes_list.json')
+
+// and more inside data folder.
 ```
 Or you can require all of it:
 ```js
