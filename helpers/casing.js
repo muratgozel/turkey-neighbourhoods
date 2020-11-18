@@ -36,8 +36,13 @@ function titlecase(str) {
   return uppercase(str.slice(0, 1)) + lowercase(str.slice(1))
 }
 
+function camelcase(str) {
+  return str.split('_').map((s, i) => i === 0 ? s : titlecase(s)).join('')
+}
+
 module.exports = {
   uppercase: uppercase,
   lowercase: lowercase,
-  titlecase: titlecase
+  titlecase: titlecase,
+  camelcase: camelcase
 }
