@@ -6,11 +6,17 @@ const dataFilePath = path.join('data/core', 'index.json')
 const targetFilePath = path.join('data/extra', 'cities_by_code.json')
 
 const data = JSON.parse( fs.readFileSync(dataFilePath, 'utf8') )
-const cityPlates = data.reduce(function(memo, item) {
-  memo[item.PK.slice(0, 2)] = item.il
-  return memo
-}, {})
+const result = []
+const usedCodes = []
+for (var i = 0; i < data.length; i++) {
+  const item = data[i]
+  const code = item.PK.slice(0, 2)
+  if (usedCodes.indexOf(code) === -1) {
+    result.push([code, item.il])
+    usedCodes.push(code)
+  }
+}
 
-fs.writeFileSync(targetFilePath, JSON.stringify(cityPlates), 'utf8')
+fs.writeFileSync(targetFilePath, JSON.stringify(result), 'utf8')
 updateSizeReport(targetFilePath, 'extra')
 console.log(path.basename(targetFilePath) + ' has been created successfully.')
