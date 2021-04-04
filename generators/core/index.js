@@ -81,15 +81,21 @@ function fetchAndParse() {
                   const worksheet = workbook.Sheets[workbook.SheetNames[0]]
                   const json = XLSX.utils.sheet_to_json(worksheet)
                   const trimmed = json.map(function(obj) {
-                    const neighbourhood = obj.Mahalle
+                    const neighbourhoodKey = obj.hasOwnProperty('Mahalle')
+                      ? 'Mahalle'
+                      : 'Mahalle/Mahalle(köy/belde)'
+                    const districtKey = obj.hasOwnProperty('semt/bucak')
+                      ? 'semt/bucak'
+                      : 'semt_bucak_belde'
+                    const neighbourhood = obj[neighbourhoodKey]
                       .trim()
                       .replace(' MAH', '')
                       .replace(' KÖYÜ', '')
 
                     obj.il = titlecase(obj.il.trim())
                     obj['ilçe'] = titlecase(obj['ilçe'].trim())
-                    obj.semt_bucak_belde = titlecase(obj.semt_bucak_belde.trim())
-                    obj.Mahalle = titlecase(neighbourhood)
+                    obj[districtKey] = titlecase(obj[districtKey].trim())
+                    obj[neighbourhoodKey] = titlecase(neighbourhood)
                     obj.PK = obj.PK.trim()
                     return obj
                   })

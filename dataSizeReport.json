@@ -1,6 +1,6 @@
 {
   "core": {
-    "index": 7929.14
+    "index": 7930.97
   },
   "extra": {
     "neighbourhoods": 1787.68,
@@ -9,11 +9,11 @@
     "districts": 11.74,
     "plates": 0.41,
     "cityPlates": 1.25,
-    "zipcode_list": 19.75,
+    "zipcode_list": 22.15,
     "cities_by_code": 1.39,
     "city_code_list": 0.41,
     "city_list": 0.82,
     "districts_by_city": 11.15,
-    "neighbourhoods_by_district_and_city": 1251.08
+    "neighbourhoods_by_district_and_city": 1262.31
   }
 }

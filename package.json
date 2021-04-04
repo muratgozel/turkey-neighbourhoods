@@ -1,6 +1,6 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "data/index.js",
   "scripts": {
@@ -39,11 +39,11 @@
   "homepage": "https://github.com/muratgozel/turkey-neighbourhoods#readme",
   "dependencies": {},
   "devDependencies": {
-    "basekits": "^1.2.1",
+    "basekits": "^1.2.4",
     "node-fetch": "^2.6.1",
-    "node-stream-zip": "^1.11.5",
-    "semver": "^7.3.2",
-    "xlsx": "^0.16.8",
+    "node-stream-zip": "^1.13.3",
+    "semver": "^7.3.5",
+    "xlsx": "^0.16.9",
     "yargs": "^15.4.1"
   }
 }
