@@ -1,13 +1,14 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "data/index.js",
   "scripts": {
     "test": "for i in tests/*.js; do node \"$i\"; done",
     "update-core": "node generators/core/index.js",
     "update-extra": "node generators/extra/zipcodeList.js && node generators/extra/citiesByCode.js && node generators/extra/cityCodeList.js && node generators/extra/cityList.js && node generators/extra/neighbourhoodsByDistrictAndCity.js && node generators/extra/divisions.js && node generators/extra/generateIndex.js",
-    "update-all": "npm run update-core && npm run update-extra",
+    "update-city-distances": "node generators/core/cityDistances.js",
+    "update-all": "npm run update-core && npm run update-extra && npm run update-city-distances",
     "commit": "node dev/commit.js commit"
   },
   "repository": {
@@ -40,6 +41,7 @@
   "dependencies": {},
   "devDependencies": {
     "basekits": "^1.2.4",
+    "colors": "^1.4.0",
     "node-fetch": "^2.6.1",
     "node-stream-zip": "^1.13.3",
     "semver": "^7.3.5",

@@ -10,6 +10,10 @@ Data is available as JSON and being fetched regularly from a reliable source.
 **In Turkish**
 JSON formatında, her zaman güncel, Türkiye şehir, posta kodu, plaka kodu, ilçe ve mahalle listesi. Veri düzenli olarak güncellenen güvenilir kaynaktan alınıyor. Alınan veri farklı şekillerde derlenerek yazılımcının kullanımına hazır hale getiriliyor.
 
+## ⭐️ New Feature: City Distances (as of v2.1)
+Now there is map that contains the distances between two cities in json format.
+It's available under `core/city_distances.json`. The distance between two city is the distance between center of both cities.
+
 ## Install
 Through npm:
 ```sh
@@ -44,6 +48,13 @@ Or you can require all of it:
 ```js
 const data = require('turkey-neighbourhoods')
 // data has core and extra.
+```
+
+## Using City Distances
+```js
+const distances = require('turkey-neighbourhoods/core/city_distances.json')
+// distance between istanbul and antalya
+const d = distances['34']['07'] // 717 (in kilometers)
 ```
 
 ## About Generators

@@ -3,79 +3,84 @@ const {exec, execSync} = require('child_process')
 const fs = require('fs')
 const path = require('path')
 const cli = require('yargs')()
+const colors = require('colors')
 const semver = require('semver')
 
-function readVersion() {
-  return JSON.parse(
-    fs.readFileSync('./package.json', 'utf8')
-  ).version
+let pkgjson = undefined
+
+function validateCodebaseChanges() {
+  const output = execSync('git status -s')
+  const changes = output.toString().split(/[\r\n]/).filter(line => line.trim().length > 0)
+  if (!changes || changes.length < 1) {
+    throw new Error('No change detected in the codebase.')
+  }
 }
 
-function gitHasChanges(cb) {
-  exec('git status -s', function(error, stdout, stderr) {
-    if (stderr) {
-      return cb(new Error(stderr.trim()))
-    }
-
-    return cb(null, stdout.trim().split(/[\r\n]/g))
-  })
+function readCurrentVersion() {
+  pkgjson = JSON.parse(fs.readFileSync('./package.json', 'utf8'))
+  return pkgjson.version
 }
 
-function commitChanges(version, msg, branch='master') {
+function genNextVersion(scheme, currentVersion, level) {
+  switch (scheme) {
+    case 'semver':
+      return semver.inc(currentVersion, level)
+    break;
+    default:
+      throw new Error('Unsupported versioning scheme.')
+  }
+}
+
+function updatePKGJson(version) {
+  pkgjson.version = version
+  fs.writeFileSync('./package.json', JSON.stringify(pkgjson, null, 2))
+}
+
+function revertPKGJson(version) {
+  updatePKGJson(version)
+}
+
+function commit(argv) {
+  const {level, message, branch, publish} = argv
+
+  validateCodebaseChanges()
+
+  const currentVersion = readCurrentVersion()
+  const nextVersion = genNextVersion('semver', currentVersion, level)
+
+  updatePKGJson(nextVersion)
+
+  const commitMessages = Array.isArray(message) ? message : [message]
+  const commitMessagesCommand = '-m "' + commitMessages.join('" -m "') + '"'
   const commands = [
-    'git tag -a "' + version + '" -m "' + msg + '"',
+    'git tag -a "' + nextVersion + '" ' + commitMessagesCommand,
     'git add .',
-    'git commit -m "' + msg + '"',
-    'git push origin ' + branch + ' --tags'
+    'git commit ' + commitMessagesCommand,
+    'git push -u origin ' + branch + ' --tags'
   ]
-
   for (let i = 0; i < commands.length; i++) {
     try {
       execSync(commands[i], {stdio: 'inherit', encoding: 'utf8'})
     } catch (e) {
-      return false
+      revertPKGJson(currentVersion)
+      throw e
     }
   }
 
-  return true
-}
+  if (publish) {
+    try {
+      execSync('npm publish --access public', {stdio: 'inherit', encoding: 'utf8'})
+    } catch (e) {
+      revertPKGJson(currentVersion)
+      throw e
+    }
+  }
 
-function commit(argv) {
-  gitHasChanges(function(err, changes) {
-    if (err || (changes && changes.length < 1))
-      throw new Error('there are no changes to commit.')
-
-    // check version
-    const version = readVersion()
-    const desiredLevel = argv.level
-    const newVersion = semver.inc(version, desiredLevel)
-    const msg = argv.message
-
-    // update version in package.json
-    fs.writeFileSync(
-      './package.json',
-      JSON.stringify(
-        Object.assign(
-          {},
-          JSON.parse( fs.readFileSync('./package.json', 'utf8') ),
-          {version: newVersion}
-        ),
-        null,
-        2
-      )
-    )
-
-    const result = commitChanges(newVersion, msg)
-    if (!result)
-      throw new Error('git command error.')
-
-    return true
-  })
-
+  console.log('New version ' + nextVersion + ' released successfully.'.green)
 }
 
 cli
-  .usage('Usage: npm run commit [level] "message"')
+  .usage('Usage: npm run commit -- [level] [message] [branch] [publish]')
   .command(
     'commit',
     'Commits changes to a remote repo.',
@@ -90,6 +95,17 @@ cli
         alias: 'm',
         describe: 'A commit message.',
         demandOption: true
+      },
+      branch: {
+        alias: 'b',
+        describe: 'The branch name you are committing.',
+        default: 'master'
+      },
+      publish: {
+        alias: 'p',
+        type: 'boolean',
+        describe: 'Also publish on npm by executing the command "npm publish --access public".',
+        default: false
       }
     },
     commit
