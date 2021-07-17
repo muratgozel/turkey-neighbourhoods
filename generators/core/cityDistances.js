@@ -43,7 +43,7 @@ const map = arr.reduce(function(memo, obj) {
       const distance = obj['__EMPTY_' + n]
       mem[nn] = distance
       return mem
-    }, {})
+    }, {[currentCode]: 0})
 
   memo[currentCode] = distancemap
 
