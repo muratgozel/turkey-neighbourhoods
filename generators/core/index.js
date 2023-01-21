@@ -1,12 +1,13 @@
 const fs = require('fs')
 const path = require('path')
-const fetch = require('node-fetch')
+const crypto = require('crypto')
+const https = require('https')
 const StreamZip = require('node-stream-zip')
 const XLSX = require('xlsx')
 const {updateSizeReport, casing} = require('../../helpers')
 const {titlecase} = casing
 
-const url = 'http://postakodu.ptt.gov.tr/Dosyalar/pk_list.zip'
+const url = 'https://postakodu.ptt.gov.tr/Dosyalar/pk_list.zip'
 const filename = 'index.json'
 const storagePath = 'storage'
 const dest = path.join('data/core', filename)
@@ -18,28 +19,29 @@ const requestOptions = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:73.0) Gecko/20100101 Firefox/73.0',
     Referer: 'http://postakodu.ptt.gov.tr/',
     Host: 'postakodu.ptt.gov.tr'
-  }
+  },
+  //insecureHTTPParser: true,
+  //rejectUnauthorized: false,
+  secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT
 }
 
 function checkIfDataUpdated() {
   return new Promise(function(resolve, reject) {
     const lightRequestOptions = Object.assign({}, requestOptions, {method: 'HEAD'})
-    fetch(url, lightRequestOptions)
-      .then(function(res) {
-        const etag = res.headers.get('etag').replace(/"+/g, '')
-        // compare new etag with our previously stored etag
-        const etagFile = path.join(storagePath, 'etag')
-        if (fs.existsSync(etagFile)) {
-          if (etag == fs.readFileSync(etagFile, 'utf8')) {
-            return resolve(false)
-          }
+    const req = https.request(url, lightRequestOptions, res => {
+      const etag = res.headers['etag'].replace(/"+/g, '')
+      // compare new etag with our previously stored etag
+      const etagFile = path.join(storagePath, 'etag')
+      if (fs.existsSync(etagFile)) {
+        if (etag === fs.readFileSync(etagFile, 'utf8')) {
+          return resolve(false)
         }
-        fs.writeFileSync(etagFile, etag, 'utf8')
-        return resolve(true)
-      })
-      .catch(function(err) {
-        throw err
-      })
+      }
+      fs.writeFileSync(etagFile, etag, 'utf8')
+      return resolve(true)
+    }).on('error', err => {
+      throw err
+    }).end()
   })
 }
 
@@ -47,71 +49,73 @@ function fetchAndParse() {
   const stream = fs.createWriteStream(path.join(storagePath, 'pk_list.zip'))
 
   return new Promise(function(resolve, reject) {
-    fetch(url)
-      .then(function(res) {
-        res.body.pipe(stream)
+    const req = https.request(url, requestOptions, res => {
+      res.pipe(stream)
 
-        res.body.on('error', function(err) {
-          stream.close()
+      res.on('error', function(err) {
+        stream.close()
+        throw err
+      })
+
+      stream.on('finish', function() {
+        stream.close()
+
+        // unzip
+        const zip = new StreamZip({
+          file: path.join(storagePath, 'pk_list.zip'),
+          storeEntries: true
+        })
+
+        zip.on('error', function(err) {
           throw err
         })
 
-        stream.on('finish', function() {
-          stream.close()
+        zip.on('ready', function() {
+          for (const entry of Object.values(zip.entries())) {
+            if (path.extname(entry.name) == '.xlsx') {
+              zip.extract(entry.name, storagePath + '/' + entry.name, function(err) {
+                if (err) throw err
+                zip.close()
 
-          // unzip
-          const zip = new StreamZip({
-            file: path.join(storagePath, 'pk_list.zip'),
-            storeEntries: true
-          })
+                // json
+                const workbook = XLSX.readFile(storagePath + '/' + entry.name)
+                const worksheet = workbook.Sheets[workbook.SheetNames[0]]
+                const json = XLSX.utils.sheet_to_json(worksheet)
+                const trimmed = json.map(function(obj) {
+                  const neighbourhoodKey = obj.hasOwnProperty('Mahalle')
+                    ? 'Mahalle'
+                    : 'Mahalle/Mahalle(köy/belde)'
+                  const districtKey = obj.hasOwnProperty('semt/bucak')
+                    ? 'semt/bucak'
+                    : 'semt_bucak_belde'
+                  const neighbourhood = obj[neighbourhoodKey]
+                  .trim()
+                  .replace(' MAH', '')
+                  .replace(' KÖYÜ', '')
 
-          zip.on('error', function(err) {
-            throw err
-          })
-
-          zip.on('ready', function() {
-            for (const entry of Object.values(zip.entries())) {
-              if (path.extname(entry.name) == '.xlsx') {
-                zip.extract(entry.name, storagePath + '/' + entry.name, function(err) {
-                  if (err) throw err
-                  zip.close()
-
-                  // json
-                  const workbook = XLSX.readFile(storagePath + '/' + entry.name)
-                  const worksheet = workbook.Sheets[workbook.SheetNames[0]]
-                  const json = XLSX.utils.sheet_to_json(worksheet)
-                  const trimmed = json.map(function(obj) {
-                    const neighbourhoodKey = obj.hasOwnProperty('Mahalle')
-                      ? 'Mahalle'
-                      : 'Mahalle/Mahalle(köy/belde)'
-                    const districtKey = obj.hasOwnProperty('semt/bucak')
-                      ? 'semt/bucak'
-                      : 'semt_bucak_belde'
-                    const neighbourhood = obj[neighbourhoodKey]
-                      .trim()
-                      .replace(' MAH', '')
-                      .replace(' KÖYÜ', '')
-
-                    obj.il = titlecase(obj.il.trim())
-                    obj['ilçe'] = titlecase(obj['ilçe'].trim())
-                    obj[districtKey] = titlecase(obj[districtKey].trim())
-                    obj[neighbourhoodKey] = titlecase(neighbourhood)
-                    obj.PK = obj.PK.trim()
-                    return obj
-                  })
-                  fs.writeFileSync(dest, JSON.stringify(json))
-                  updateSizeReport(dest, 'core')
-
-                  return resolve()
+                  obj.il = titlecase(obj.il.trim())
+                  obj['ilçe'] = titlecase(obj['ilçe'].trim())
+                  obj[districtKey] = titlecase(obj[districtKey].trim())
+                  obj[neighbourhoodKey] = titlecase(neighbourhood)
+                  obj.PK = obj.PK.trim()
+                  return obj
                 })
-              }
+                fs.writeFileSync(dest, JSON.stringify(json))
+                updateSizeReport(dest, 'core')
+
+                return resolve()
+              })
             }
-          })
+          }
         })
       })
-      .catch(function(err) {
-        throw err
-      })
+    })
+
+    req.on(err => {
+      throw err
+    })
+
+    req.end()
   })
 }
 
@@ -120,6 +124,7 @@ console.log('Looking up for if we still have the latest version of the data...')
 checkIfDataUpdated().then(function(result) {
   if (result === true) {
     console.log('There is an update! Fetching the latest version of the data...')
+    return;
 
     fetchAndParse().then(function() {
       console.log('Data is ready to use.')

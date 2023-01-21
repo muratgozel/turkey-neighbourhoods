@@ -1,6 +1,6 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "data/index.js",
   "scripts": {
@@ -8,8 +8,7 @@
     "update-core": "node generators/core/index.js",
     "update-extra": "node generators/extra/zipcodeList.js && node generators/extra/citiesByCode.js && node generators/extra/cityCodeList.js && node generators/extra/cityList.js && node generators/extra/neighbourhoodsByDistrictAndCity.js && node generators/extra/divisions.js && node generators/extra/generateIndex.js",
     "update-city-distances": "node generators/core/cityDistances.js",
-    "update-all": "npm run update-core && npm run update-extra && npm run update-city-distances",
-    "commit": "node dev/commit.js commit"
+    "update-all": "npm run update-core && npm run update-extra && npm run update-city-distances"
   },
   "repository": {
     "type": "git",
@@ -38,14 +37,15 @@
     "url": "https://github.com/muratgozel/turkey-neighbourhoods/issues"
   },
   "homepage": "https://github.com/muratgozel/turkey-neighbourhoods#readme",
-  "dependencies": {},
+  "dependencies": {
+    "underscore": "^1.13.6"
+  },
   "devDependencies": {
-    "basekits": "^1.2.4",
     "colors": "^1.4.0",
-    "node-fetch": "^2.6.1",
+    "node-releaser": "^2.0.0-beta.4",
     "node-stream-zip": "^1.13.3",
     "semver": "^7.3.5",
-    "xlsx": "^0.16.9",
+    "xlsx": "^0.18.5",
     "yargs": "^15.4.1"
   }
 }

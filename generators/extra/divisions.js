@@ -1,8 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const {validationkit} = require('basekits')
-const {updateSizeReport, casing} = require('../../helpers')
-const {camelcase} = casing
 
 fs.mkdirSync(path.join('data/extra/divisions'), {recursive: true})
 

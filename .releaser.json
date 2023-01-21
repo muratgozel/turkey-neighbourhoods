@@ -1,0 +1,13 @@
+{
+  "versioningScheme": "semver",
+  "versioningPrefix": "",
+  "npmUpdatePackageVersion": true,
+  "npmPublishPackage": true,
+  "githubRelease": true,
+  "location": ".releaser.json",
+  "npmPublishPackageArgs": [],
+  "gitlabRelease": false,
+  "dockerBuildPath": ".",
+  "dockerBuildArgs": [],
+  "dockerPushArgs": []
+}

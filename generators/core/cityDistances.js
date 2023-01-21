@@ -25,7 +25,7 @@ function sortCitiesByCode(citiesByCode) {
 
 const cities = sortCitiesByCode(citiesByCode)
 
-const workbook = XLSX.readFile('./storage/ilmesafe.xls')
+const workbook = XLSX.readFile('./storage/ilmesafe.xlsx')
 const worksheet = workbook.Sheets[workbook.SheetNames[0]]
 const arr = XLSX.utils.sheet_to_json(worksheet)
 
