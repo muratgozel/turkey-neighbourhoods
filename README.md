@@ -1,5 +1,5 @@
 # turkey-neighbourhoods
-Always up to date names of cities, districts and neighbourhoods of Turkey, available as JSON and JS.
+Always up to date names of cities, districts and neighbourhoods of Turkey, available as JSON and JS. Refer to https://muratgozel.github.io/turkey-neighbourhoods/ for full api documentation.
 
 **In Turkish: **
 JSON ve JS formatında, her zaman güncel, Türkiye şehir, posta kodu, plaka kodu, ilçe ve mahalle listesi.
@@ -56,7 +56,7 @@ findClosestCities('16', 200, 3) // [{code: '77', distance: 69}, ...]
 Have a look at the tests, types and source for more info.
 
 ## Keeping Data Up To Date
-Data updates published regularly as `minor` releases so you only need to update the package as new version comes in. If you have a kind of manual setup, you can run `npm run generate`, `compile`, `build` and `test` to fetch the new data. The module is smart enough to detect if the existing data is fresh or not.
+Data updates published regularly as `minor` releases so you only need to update the package as new version comes in. If you have a kind of manual setup, you can run `npm run setup`, `compile`, `build` and `test` to fetch the new data. The module is smart enough to detect if the existing data is fresh or not.
 
 ---
 

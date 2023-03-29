@@ -1,6 +1,6 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "build/index.js",
   "type": "module",
@@ -15,11 +15,13 @@
     }
   },
   "scripts": {
-    "generate": "node src/generateResources.js",
+    "presetup": "rm -rf src/data/city/* && rm -rf src/data/perCity/* && rm -rf src/data/distances/* && rm -rf src/data/neighbourhoods/* && rm -rf src/data/postalCode/*",
+    "setup": "node setup/generateResources.js",
     "precompile": "rm -rf build/*",
     "compile": "tsc -p tsconfig.json",
-    "build": "npm run compile && node esbuild.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "build": "node esbuild.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "docs": "typedoc --includeVersion --excludePrivate src/index.ts types/index.d.ts"
   },
   "repository": {
     "type": "git",
@@ -62,7 +64,8 @@
     "node-stream-zip": "^1.13.3",
     "semver": "^7.3.5",
     "speakingurl": "^14.0.1",
-    "typescript": "^4.9.5",
-    "xlsx": "file:src/modules/xlsx-0.19.2.tar"
+    "typedoc": "^0.23.28",
+    "typescript": "^5.0.2",
+    "xlsx": "file:setup/modules/xlsx-0.19.2.tar"
   }
 }

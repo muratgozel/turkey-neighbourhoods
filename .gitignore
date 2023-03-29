@@ -9,6 +9,7 @@ src/data/city/*
 src/data/distances/*
 src/data/neighbourhoods/*
 src/data/postalCode/*
+src/data/perCity/*
 
 **/.DS_Store
 

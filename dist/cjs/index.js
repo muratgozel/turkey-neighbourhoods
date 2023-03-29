@@ -24,21 +24,22 @@ __export(build_exports, {
   castCityName: () => castCityName,
   findClosestCities: () => findClosestCities,
   findDistance: () => findDistance,
+  getAllCityDistricts: () => getAllCityDistricts,
+  getAllNeighbourhoods: () => getAllNeighbourhoods,
   getCities: () => getCities,
   getCityCodes: () => getCityCodes,
   getCityDistrictNeighbourhoods: () => getCityDistrictNeighbourhoods,
   getCityDistricts: () => getCityDistricts,
   getCityNames: () => getCityNames,
   getPostalCodes: () => getPostalCodes,
+  isArray: () => isArray,
   isCity: () => isCity,
   isCityCode: () => isCityCode,
   isCityCodeLike: () => isCityCodeLike,
   isCityName: () => isCityName,
   isCityNameLike: () => isCityNameLike,
   isObject: () => isObject,
-  isPostalCode: () => isPostalCode,
-  turkeyCityCodeDistrictNeighbourhoods: () => mapCodeDistrictNeighbourhoods,
-  turkeyCityCodeDistricts: () => mapCodeDistricts
+  isPostalCode: () => isPostalCode
 });
 module.exports = __toCommonJS(build_exports);
 
@@ -95323,7 +95324,7 @@ var mapCodeDistrictNeighbourhoods = {
       "S\xFCrek K\xF6y\xFC",
       "Tan K\xF6y\xFC",
       "Tand\u0131rba\u015F\u0131 K\xF6y\xFC",
-      "Tan'\u0131n Komlar\u0131 Mah (bo\u011Fazi\xE7i K\xF6y\xFC)",
+      "Tan`\u0131n Komlar\u0131 Mah (bo\u011Fazi\xE7i K\xF6y\xFC)",
       "Tuzla K\xF6y\xFC",
       "Ulu\xE7\u0131nar K\xF6y\xFC",
       "Ya\u011Fca K\xF6y\xFC",
@@ -123902,7 +123903,7 @@ var mapCodeDistrictNeighbourhoods = {
       "Kotos Mah (karayemi\u015F K\xF6y\xFC)",
       "K\xF6seler Mah (camida\u011F\u0131 K\xF6y\xFC)",
       "K\xF6seler Mah (dereba\u015F\u0131 K\xF6y\xFC)",
-      "Kurs'tan \u0130tibaren Mah (g\xFCzelk\xF6y K\xF6y\xFC)",
+      "Kurs`tan \u0130tibaren Mah (g\xFCzelk\xF6y K\xF6y\xFC)",
       "Kutlular Mah (azakl\u0131hoca K\xF6y\xFC)",
       "Manavlar Mah (yenikasarc\u0131lar K\xF6y\xFC)",
       "Menderes Mah (karayemi\u015F K\xF6y\xFC)",
@@ -157052,11 +157053,17 @@ var mapCodeDistrictNeighbourhoods = {
 };
 
 // build/index.js
-var hasProp1 = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
-var hasProp2 = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
-var reCityCodeCast = /[0-9]{2}/;
+var isObject = (v) => {
+  return !!v && v.constructor === Object;
+};
+var isArray = (v) => {
+  return !!v && v.constructor === Array;
+};
+var titleCase = (text) => {
+  return text.toLocaleLowerCase("TR").split(" ").map((word) => word.charAt(0).toLocaleUpperCase("TR") + word.slice(1)).join(" ");
+};
 var isCityCode = (v) => {
-  return typeof v === "string" && codes.includes(v);
+  return typeof v === "string" && codes.find((code) => code === v) !== void 0;
 };
 var isCityCodeLike = (v) => {
   if (typeof v === "string")
@@ -157070,8 +157077,8 @@ var castCityCode = (v) => {
     return v < 10 ? "0" + v.toString() : v.toString();
   }
   if (typeof v === "string") {
-    const result = v.match(reCityCodeCast);
-    if (Array.isArray(result) && isCityCode(result[0])) {
+    const result = v.match(/[0-9]{2}/);
+    if (isArray(result) && isCityCode(result[0])) {
       return result[0];
     }
   }
@@ -157080,11 +157087,8 @@ var castCityCode = (v) => {
   }
   return "";
 };
-var titleCase = (text) => {
-  return text.toLocaleLowerCase("TR").split(" ").map((word) => word.charAt(0).toLocaleUpperCase("TR") + word.slice(1)).join(" ");
-};
 var isCityName = (v) => {
-  return typeof v === "string" && names.includes(v);
+  return typeof v === "string" && names.find((name) => name === v) !== void 0;
 };
 var isCityNameLike = (v) => {
   return typeof v === "string" && isCityName(titleCase(v));
@@ -157095,21 +157099,18 @@ var castCityName = (v) => {
 var isCity = (v) => {
   return typeof v === "string" && (isCityCode(v) || isCityName(v));
 };
-var isObject = (v) => {
-  return typeof v === "function" || typeof v === "object" && !!v;
-};
 var findDistance = (code1, code2) => {
   if (isCityCode(code1) && isCityCode(code2)) {
-    if (hasProp1(distances, code1)) {
-      if (hasProp2(distances[code1], code2)) {
-        return distances[code1][code2] || void 0;
+    if (Object.hasOwn(distances, code1)) {
+      if (Object.hasOwn(distances[code1], code2)) {
+        return distances[code1][code2];
       }
     }
   }
   return void 0;
 };
 var findClosestCities = (code, threshold = 9999, limit = 100) => {
-  if (!hasProp1(distances, code)) {
+  if (!Object.hasOwn(distances, code)) {
     return [];
   }
   const obj = distances[code];
@@ -157120,25 +157121,31 @@ var findClosestCities = (code, threshold = 9999, limit = 100) => {
   }).filter((obj2, i) => obj2.distance <= threshold && i + 1 <= limit);
 };
 var getCityNames = () => {
-  return names;
+  return Array.from(names);
 };
 var getCityCodes = () => {
-  return codes;
+  return Array.from(codes);
 };
 var getCities = () => {
   return list;
 };
 var getPostalCodes = () => {
-  return postalCodes;
+  return Array.from(postalCodes);
 };
 var isPostalCode = (v) => {
-  return postalCodes.includes(v);
+  return typeof v === "string" && postalCodes.find((code) => code === v) !== void 0;
 };
 var getCityDistricts = (code) => {
   return mapCodeDistricts[code] || [];
 };
+var getAllCityDistricts = () => {
+  return mapCodeDistricts;
+};
 var getCityDistrictNeighbourhoods = (code) => {
   return mapCodeDistrictNeighbourhoods[code] || {};
+};
+var getAllNeighbourhoods = () => {
+  return mapCodeDistrictNeighbourhoods;
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -157146,19 +157153,20 @@ var getCityDistrictNeighbourhoods = (code) => {
   castCityName,
   findClosestCities,
   findDistance,
+  getAllCityDistricts,
+  getAllNeighbourhoods,
   getCities,
   getCityCodes,
   getCityDistrictNeighbourhoods,
   getCityDistricts,
   getCityNames,
   getPostalCodes,
+  isArray,
   isCity,
   isCityCode,
   isCityCodeLike,
   isCityName,
   isCityNameLike,
   isObject,
-  isPostalCode,
-  turkeyCityCodeDistrictNeighbourhoods,
-  turkeyCityCodeDistricts
+  isPostalCode
 });
