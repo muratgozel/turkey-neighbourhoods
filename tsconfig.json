@@ -1,7 +1,10 @@
 {
-  "extends": "@tsconfig/node18-strictest-esm/tsconfig.json",
+  "extends": [
+    "@tsconfig/node18/tsconfig.json",
+    "@tsconfig/esm/tsconfig.json",
+    "@tsconfig/strictest/tsconfig.json"
+  ],
   "compilerOptions": {
-    "ignoreDeprecations": "5.0",
     "outDir": "build",
     "baseUrl": ".",
     "resolveJsonModule": true,

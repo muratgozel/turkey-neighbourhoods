@@ -1,6 +1,6 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "build/index.js",
   "type": "module",
@@ -52,7 +52,6 @@
   "homepage": "https://github.com/muratgozel/turkey-neighbourhoods#readme",
   "devDependencies": {
     "@jest/globals": "^29.4.3",
-    "@tsconfig/node18-strictest-esm": "^1.0.1",
     "@types/node": "^18.14.6",
     "@types/speakingurl": "^13.0.3",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
@@ -67,5 +66,10 @@
     "typedoc": "^0.23.28",
     "typescript": "^5.0.2",
     "xlsx": "file:setup/modules/xlsx-0.19.2.tar"
+  },
+  "dependencies": {
+    "@tsconfig/esm": "^1.0.2",
+    "@tsconfig/node18": "^1.0.1",
+    "@tsconfig/strictest": "^2.0.0"
   }
 }

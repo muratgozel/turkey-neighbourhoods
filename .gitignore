@@ -5,12 +5,6 @@ storage/resources/distances/*
 !storage/resources/neighbourhoods/etag
 !storage/resources/distances/etag
 
-src/data/city/*
-src/data/distances/*
-src/data/neighbourhoods/*
-src/data/postalCode/*
-src/data/perCity/*
-
 **/.DS_Store
 
 # Logs
