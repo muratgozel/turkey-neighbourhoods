@@ -99,15 +99,18 @@ export const getPostalCodes = () => {
 export const isPostalCode = (v) => {
     return typeof v === 'string' && postalCodes.find((code) => code === v) !== undefined;
 };
-export const getCityDistricts = (code) => {
+export const getDistrictsByCityCode = (code) => {
     return mapCodeDistricts[code] || [];
 };
-export const getAllCityDistricts = () => {
+export const getDistrictsOfEachCity = () => {
     return mapCodeDistricts;
 };
-export const getCityDistrictNeighbourhoods = (code) => {
+export const getDistrictsAndNeighbourhoodsByCityCode = (code) => {
     return mapCodeDistrictNeighbourhoods[code] || {};
 };
-export const getAllNeighbourhoods = () => {
+export const getDistrictsAndNeighbourhoodsOfEachCity = () => {
     return mapCodeDistrictNeighbourhoods;
+};
+export const getNeighbourhoodsByCityCodeAndDistrict = (code, district) => {
+    return (mapCodeDistrictNeighbourhoods[code] || {})[district] || [];
 };

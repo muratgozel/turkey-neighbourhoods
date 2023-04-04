@@ -122,18 +122,22 @@ export const isPostalCode = (v: unknown): v is PostalCode => {
     return typeof v === 'string' && postalCodes.find((code) => code === v) !== undefined
 }
 
-export const getCityDistricts = (code: CityCode): string[] => {
+export const getDistrictsByCityCode = (code: CityCode): string[] => {
     return mapCodeDistricts[code] || []
 }
 
-export const getAllCityDistricts = (): CityCodeDistrictMap => {
+export const getDistrictsOfEachCity = (): CityCodeDistrictMap => {
     return mapCodeDistricts
 }
 
-export const getCityDistrictNeighbourhoods = (code: CityCode): {[index: string]: string[]} => {
+export const getDistrictsAndNeighbourhoodsByCityCode = (code: CityCode): {[index: string]: string[]} => {
     return mapCodeDistrictNeighbourhoods[code] || {}
 }
 
-export const getAllNeighbourhoods = (): CityCodeDistrictNeighbourhoodsMap => {
+export const getDistrictsAndNeighbourhoodsOfEachCity = (): CityCodeDistrictNeighbourhoodsMap => {
     return mapCodeDistrictNeighbourhoods
+}
+
+export const getNeighbourhoodsByCityCodeAndDistrict = (code: CityCode, district: string): string[] => {
+    return (mapCodeDistrictNeighbourhoods[code] || {})[district] || []
 }

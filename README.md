@@ -44,8 +44,11 @@ getCities() // [{code: "01", name: "Adana"}, ... {code: "67", name: "Zonguldak"}
 getPostalCodes() // ["01720", ... "67100"]
 isPostalCode('01720') // true
 
-getCityDistricts('16') // ["Büyükorhan", "Gemlik", "Gürsu", ... "Yıldırım"]
-getCityDistrictNeighbourhoods('16') // {"Büyükorhan": ["Akçasaz Mah", "Aktaş Mah", ...], "Gemlik": ["Adliye Mah", ...], ...}
+getDistrictsByCityCode('16') // ["Büyükorhan", "Gemlik", "Gürsu", ... "Yıldırım"]
+getDistrictsOfEachCity() // {"16": ["Nilüfer", ...]}
+getDistrictsAndNeighbourhoodsByCityCode('16') // {"Büyükorhan": ["Akçasaz Mah", "Aktaş Mah", ...], "Gemlik": ["Adliye Mah", ...], ...}
+getDistrictsAndNeighbourhoodsOfEachCity() // {"16": {"Gemlik": ["Adliye Mah", ...] ...} ...}
+getNeighbourhoodsByCityCodeAndDistrict("16", "Nilüfer") // ["Alaaddinbey Mah", "Ataevler Mah" ...]
 
 // find distance between two cities in kilometers based on the roads
 findDistance('41', '16') // 131

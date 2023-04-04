@@ -23,13 +23,14 @@ __export(build_exports, {
   castCityName: () => castCityName,
   findClosestCities: () => findClosestCities,
   findDistance: () => findDistance,
-  getAllCityDistricts: () => getAllCityDistricts,
-  getAllNeighbourhoods: () => getAllNeighbourhoods,
   getCities: () => getCities,
   getCityCodes: () => getCityCodes,
-  getCityDistrictNeighbourhoods: () => getCityDistrictNeighbourhoods,
-  getCityDistricts: () => getCityDistricts,
   getCityNames: () => getCityNames,
+  getDistrictsAndNeighbourhoodsByCityCode: () => getDistrictsAndNeighbourhoodsByCityCode,
+  getDistrictsAndNeighbourhoodsOfEachCity: () => getDistrictsAndNeighbourhoodsOfEachCity,
+  getDistrictsByCityCode: () => getDistrictsByCityCode,
+  getDistrictsOfEachCity: () => getDistrictsOfEachCity,
+  getNeighbourhoodsByCityCodeAndDistrict: () => getNeighbourhoodsByCityCodeAndDistrict,
   getPostalCodes: () => getPostalCodes,
   isArray: () => isArray,
   isCity: () => isCity,
@@ -157134,17 +157135,20 @@ var getPostalCodes = () => {
 var isPostalCode = (v) => {
   return typeof v === "string" && postalCodes.find((code) => code === v) !== void 0;
 };
-var getCityDistricts = (code) => {
+var getDistrictsByCityCode = (code) => {
   return mapCodeDistricts[code] || [];
 };
-var getAllCityDistricts = () => {
+var getDistrictsOfEachCity = () => {
   return mapCodeDistricts;
 };
-var getCityDistrictNeighbourhoods = (code) => {
+var getDistrictsAndNeighbourhoodsByCityCode = (code) => {
   return mapCodeDistrictNeighbourhoods[code] || {};
 };
-var getAllNeighbourhoods = () => {
+var getDistrictsAndNeighbourhoodsOfEachCity = () => {
   return mapCodeDistrictNeighbourhoods;
+};
+var getNeighbourhoodsByCityCodeAndDistrict = (code, district) => {
+  return (mapCodeDistrictNeighbourhoods[code] || {})[district] || [];
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
@@ -157152,13 +157156,14 @@ var getAllNeighbourhoods = () => {
   castCityName,
   findClosestCities,
   findDistance,
-  getAllCityDistricts,
-  getAllNeighbourhoods,
   getCities,
   getCityCodes,
-  getCityDistrictNeighbourhoods,
-  getCityDistricts,
   getCityNames,
+  getDistrictsAndNeighbourhoodsByCityCode,
+  getDistrictsAndNeighbourhoodsOfEachCity,
+  getDistrictsByCityCode,
+  getDistrictsOfEachCity,
+  getNeighbourhoodsByCityCodeAndDistrict,
   getPostalCodes,
   isArray,
   isCity,
