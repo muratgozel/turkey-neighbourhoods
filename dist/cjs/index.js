@@ -42,7 +42,7 @@ __export(build_exports, {
 });
 module.exports = __toCommonJS(build_exports);
 
-// src/data/distances/distances.ts
+// build/data/distances/distances.js
 var distances = {
   "10": {
     "11": 257,
@@ -6688,7 +6688,7 @@ var distances = {
   }
 };
 
-// src/data/city/codes.ts
+// build/data/city/codes.js
 var codes = [
   "01",
   "02",
@@ -6773,7 +6773,7 @@ var codes = [
   "67"
 ];
 
-// src/data/city/names.ts
+// build/data/city/names.js
 var names = [
   "Adana",
   "Ad\u0131yaman",
@@ -6858,7 +6858,7 @@ var names = [
   "Zonguldak"
 ];
 
-// src/data/city/list.ts
+// build/data/city/list.js
 var list = [
   {
     "code": "01",
@@ -7186,7 +7186,7 @@ var list = [
   }
 ];
 
-// src/data/postalCode/list.ts
+// build/data/postalCode/list.js
 var postalCodes = [
   "01720",
   "01720",
@@ -80495,7 +80495,7 @@ var postalCodes = [
   "67100"
 ];
 
-// src/data/city/mapCodeDistricts.ts
+// build/data/city/mapCodeDistricts.js
 var mapCodeDistricts = {
   "10": [
     "Alt\u0131eyl\xFCl",
@@ -81634,7 +81634,7 @@ var mapCodeDistricts = {
   ]
 };
 
-// src/data/city/mapCodeDistrictNeighbourhoods.ts
+// build/data/city/mapCodeDistrictNeighbourhoods.js
 var mapCodeDistrictNeighbourhoods = {
   "10": {
     "Alt\u0131eyl\xFCl": [
