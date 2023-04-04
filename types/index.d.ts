@@ -30,5 +30,5 @@ declare module 'turkey-neighbourhoods' {
     export function getDistrictsOfEachCity(): CityCodeDistrictMap
     export function getDistrictsAndNeighbourhoodsByCityCode(city: CityCode): string[]
     export function getDistrictsAndNeighbourhoodsOfEachCity(): CityCodeDistrictNeighbourhoodsMap
-    export function getNeighbourhoodsByCityCodeAndDistrict(): string[]
+    export function getNeighbourhoodsByCityCodeAndDistrict(code: CityCode, district: string): string[]
 }
