@@ -1,12 +1,12 @@
 import type {CityCode, CityName, City, CityListItem, CityCodeDistrictMap, CityCodeDistrictNeighbourhoodsMap,
     DistanceChild, PostalCode} from 'turkey-neighbourhoods'
-import {distances} from './data/distances/distances'
-import {codes as cityCodes} from './data/city/codes'
-import {names as cityNames} from './data/city/names'
-import {list as cityList} from './data/city/list'
-import {postalCodes} from './data/postalCode/list'
-import {mapCodeDistricts} from './data/city/mapCodeDistricts'
-import {mapCodeDistrictNeighbourhoods} from './data/city/mapCodeDistrictNeighbourhoods'
+import {distances} from './data/distances/distances.js'
+import {codes as cityCodes} from './data/city/codes.js'
+import {names as cityNames} from './data/city/names.js'
+import {list as cityList} from './data/city/list.js'
+import {postalCodes} from './data/postalCode/list.js'
+import {mapCodeDistricts} from './data/city/mapCodeDistricts.js'
+import {mapCodeDistrictNeighbourhoods} from './data/city/mapCodeDistrictNeighbourhoods.js'
 
 export const isObject = (v: unknown): v is object => {
     return (!!v) && (v.constructor === Object)
