@@ -1,4 +1,4 @@
-export const postalCodes = [
+export const postalCodes: string[] = [
     '01720',
     '01720',
     '01720',
@@ -73304,6 +73304,5 @@ export const postalCodes = [
     '67100',
     '67100',
     '67100'
-] as const
+]
 
-export type PostalCode = typeof postalCodes[number]

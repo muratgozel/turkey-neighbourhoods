@@ -81,7 +81,7 @@ export class TurkeyNeighbourhoods extends Resource {
 
         const postalCodes = raw.map((arr) => arr[4])
         const postalCodesStr = JSON.stringify(postalCodes, null, 4).replace(/"/g, '\'')
-        await writeFile(path.join(distPath, 'postalCode', 'list.ts'), 'export const postalCodes = ' + postalCodesStr + ' as const\n\nexport type PostalCode = typeof postalCodes[number]')
+        await writeFile(path.join(distPath, 'postalCode', 'list.ts'), 'export const postalCodes: string[] = ' + postalCodesStr + '\n\n')
 
         const mapCodeDistrictNeighbourhoods = raw.reduce((memo, arr) => {
             if (typeof arr[0] === 'string' && typeof arr[2] === 'string') {

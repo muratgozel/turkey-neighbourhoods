@@ -5,7 +5,7 @@ declare module 'turkey-neighbourhoods' {
     export type CityCodeNameMap = import('../src/data/city/mapCodeName').CityCodeNameMap
     export type CityCodeDistrictMap = import('../src/data/city/mapCodeDistricts').CityCodeDistrictMap
     export type CityCodeDistrictNeighbourhoodsMap = import('../src/data/city/mapCodeDistrictNeighbourhoods').CityCodeDistrictNeighbourhoodsMap
-    export type PostalCode = import('../src/data/postalCode/list').PostalCode
+    export type PostalCode = string
     export type DistanceChild = import('../src/data/distances/distances').DistanceChild
     export type Distances = import('../src/data/distances/distances').Distances
     export type NeighbourhoodList = import('../src/data/neighbourhoods/neighbourhoods').NeighbourhoodList

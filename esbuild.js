@@ -5,5 +5,5 @@ await esbuild.build({
     bundle: true,
     platform: 'node',
     packages: 'external',
-    outdir: './dist/cjs'
+    outfile: './dist/turkey-neighbourhoods.cjs.js'
 })

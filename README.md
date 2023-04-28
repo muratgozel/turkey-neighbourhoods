@@ -37,7 +37,7 @@ isCityNameLike('istanbul') // true
 
 castCityName('istanbul') // "İstanbul"
 
-getCityCodes() // ["01", "02", ... "67"] it is sorted by name, 81 in total
+getCityCodes() // ["01", "02", ... "67"] sorted by name, 81 in total
 getCityNames() // ["Adana", "Adıyaman", ... "Zonguldak"]
 getCities() // [{code: "01", name: "Adana"}, ... {code: "67", name: "Zonguldak"}]
 

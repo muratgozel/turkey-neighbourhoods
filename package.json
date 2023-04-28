@@ -1,18 +1,15 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
-  "main": "build/index.js",
+  "main": "./dist/turkey-neighbourhoods.cjs.js",
+  "module": "./build/index.js",
   "type": "module",
   "types": "types",
-  "imports": {
-    "#src/*": "./build/*.js"
-  },
   "exports": {
-    ".": {
-      "import": "./build/index.js",
-      "require": "./dist/cjs/index.js"
-    }
+    "import": "./build/index.js",
+    "require": "./dist/turkey-neighbourhoods.cjs.js",
+    "default": "./dist/turkey-neighbourhoods.cjs.js"
   },
   "scripts": {
     "presetup": "rm -rf src/data/city/* && rm -rf src/data/perCity/* && rm -rf src/data/distances/* && rm -rf src/data/neighbourhoods/* && rm -rf src/data/postalCode/*",
@@ -65,9 +62,7 @@
     "speakingurl": "^14.0.1",
     "typedoc": "^0.23.28",
     "typescript": "^5.0.2",
-    "xlsx": "file:setup/modules/xlsx-0.19.2.tar"
-  },
-  "dependencies": {
+    "xlsx": "file:setup/modules/xlsx-0.19.2.tar",
     "@tsconfig/esm": "^1.0.2",
     "@tsconfig/node18": "^1.0.1",
     "@tsconfig/strictest": "^2.0.0"
