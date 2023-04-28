@@ -1,6 +1,6 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
   "main": "./dist/turkey-neighbourhoods.cjs.js",
   "module": "./build/index.js",

@@ -115,7 +115,7 @@ export class TurkeyNeighbourhoods extends Resource {
         const formatted = this.formatOutput(json)
         const formattedStr = JSON.stringify(formatted, null, 4).replace(/'/g, '`').replace(/"/g, '\'')
 
-        await writeFile(path.join(this.outputPath, this.id + '.ts'), 'import type {CityName} from \'../city/names\'\nimport type {CityCode} from \'../city/codes\'\n\nexport type NeighbourhoodList = [CityCode, CityName, string, string, string][]\n\nexport const neighbourhoods: NeighbourhoodList = ' + formattedStr)
+        await writeFile(path.join(this.outputPath, this.id + '.ts'), 'import type { NeighbourhoodList } from \'turkey-neighbourhoods\'\n\nexport const neighbourhoods: NeighbourhoodList = ' + formattedStr)
 
         return formatted
     }

@@ -8,7 +8,7 @@ declare module 'turkey-neighbourhoods' {
     export type PostalCode = string
     export type DistanceChild = import('../src/data/distances/distances').DistanceChild
     export type Distances = import('../src/data/distances/distances').Distances
-    export type NeighbourhoodList = import('../src/data/neighbourhoods/neighbourhoods').NeighbourhoodList
+    export type NeighbourhoodList = [CityCode, CityName, string, string, string][]
 
     export type City = CityCode | CityName
 
