@@ -1,16 +1,18 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "3.0.12",
+  "version": "3.0.13",
   "description": "Always up to date names of cities, districts and neighbourhoods in Turkey.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./build/index.js",
+      "require": "./dist/turkey-neighbourhoods.cjs"
+    }
+  },
+  "types": "./types/index.d.ts",
   "main": "./dist/turkey-neighbourhoods.cjs",
   "module": "./build/index.js",
-  "type": "module",
-  "types": "types",
-  "exports": {
-    "import": "./build/index.js",
-    "require": "./dist/turkey-neighbourhoods.cjs",
-    "default": "./dist/turkey-neighbourhoods.cjs"
-  },
   "scripts": {
     "presetup": "rm -rf src/data/city/* && rm -rf src/data/perCity/* && rm -rf src/data/distances/* && rm -rf src/data/neighbourhoods/* && rm -rf src/data/postalCode/*",
     "setup": "node setup/generateResources.js",
@@ -58,7 +60,6 @@
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-terser": "^0.4.3",
-    "@tsconfig/esm": "^1.0.2",
     "@tsconfig/node18": "^2.0.1",
     "@tsconfig/strictest": "^2.0.0",
     "@types/node": "^20.3.1",
