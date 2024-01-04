@@ -1,15 +1,24 @@
 declare module 'turkey-neighbourhoods' {
-    export type CityCode = import('../src/data/city/codes').CityCode
-    export type CityName = import('../src/data/city/names').CityName
-    export type CityListItem = import('../src/data/city/list').CityListItem
-    export type CityCodeNameMap = import('../src/data/city/mapCodeName').CityCodeNameMap
-    export type CityCodeDistrictMap = import('../src/data/city/mapCodeDistricts').CityCodeDistrictMap
-    export type CityCodeDistrictNeighbourhoodsMap = import('../src/data/city/mapCodeDistrictNeighbourhoods').CityCodeDistrictNeighbourhoodsMap
-    export type PostalCode = string
-    export type DistanceChild = import('../src/data/distances/distances').DistanceChild
-    export type Distances = import('../src/data/distances/distances').Distances
-    export type NeighbourhoodList = [CityCode, CityName, string, string, string][]
+    import { type CityCode } from '../src/data/city/codes'
+    import { type CityName } from '../src/data/city/names'
+    import { type CityListItem } from '../src/data/city/list'
+    import { type CityCodeNameMap } from '../src/data/city/mapCodeName'
+    import { type CityCodeDistrictMap } from '../src/data/city/mapCodeDistricts'
+    import { type CityCodeDistrictNeighbourhoodsMap } from '../src/data/city/mapCodeDistrictNeighbourhoods'
+    import { type DistanceChild } from '../src/data/distances/distances'
+    import { type Distances } from '../src/data/distances/distances'
 
+    export { type CityCode } from '../src/data/city/codes'
+    export { type CityName } from '../src/data/city/names'
+    export { type CityListItem } from '../src/data/city/list'
+    export { type CityCodeNameMap } from '../src/data/city/mapCodeName'
+    export { type CityCodeDistrictMap } from '../src/data/city/mapCodeDistricts'
+    export { type CityCodeDistrictNeighbourhoodsMap } from '../src/data/city/mapCodeDistrictNeighbourhoods'
+    export { type DistanceChild } from '../src/data/distances/distances'
+    export { type Distances } from '../src/data/distances/distances'
+
+    export type PostalCode = string
+    export type NeighbourhoodList = [CityCode, CityName, string, string, string][]
     export type City = CityCode | CityName
 
     export function isCityCode(v: unknown): v is CityCode
