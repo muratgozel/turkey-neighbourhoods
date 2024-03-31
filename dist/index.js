@@ -35443,7 +35443,7 @@ var _neighbourhoodsByDistrictAndCityCode = {
 		"Sultançiftliği Mah",
 		"Uğur Mumcu Mah",
 		"Cebeci Mah",
-		"Eski Habibler Mah",
+		"Eski Habipler Mah",
 		"Habibler Mah",
 		"İsmetpaşa Mah",
 		"Malkoçoğlu Mah",

@@ -47,9 +47,11 @@ export async function fetchAndParseNeighbourhoods (outputPath: string) {
 }
 
 function transform (rec: string[]) {
+    /*
     if (rec[0] === '34' && rec[2] === 'Sultangazi' && rec[3] === 'Eski Habipler Mah') {
         rec[3] = 'Eski Habibler Mah'
     }
+    */
 
     return rec
 }
