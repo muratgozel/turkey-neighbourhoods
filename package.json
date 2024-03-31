@@ -1,6 +1,6 @@
 {
   "name": "turkey-neighbourhoods",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Always up to date names of cities, districts and neighbourhoods of Turkey + city distances. / Her zaman güncel, Türkiye şehir, posta kodu, plaka kodu, ilçe ve mahalle listesi + şehirlerarası mesafeler.",
   "type": "module",
   "main": "./dist/index.cjs",
