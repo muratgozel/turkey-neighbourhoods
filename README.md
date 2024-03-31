@@ -1,8 +1,8 @@
 # turkey-neighbourhoods
-Always up to date names of cities, districts and neighbourhoods of Turkey.
+Always up to date names of cities, districts and neighbourhoods of Turkey + city distances.
 
 **In Turkish: **
-Her zaman güncel, Türkiye şehir, posta kodu, plaka kodu, ilçe ve mahalle listesi.
+Her zaman güncel, Türkiye şehir, posta kodu, plaka kodu, ilçe ve mahalle listesi + şehirlerarası mesafeler.
 
 ## Install
 ```sh
@@ -15,6 +15,8 @@ or inject with script tag:
 
 ## Usage
 The package contains large amount of data which is not suitable for browser environment. Benefit from tree-shaking might work if you are interested in small chunks of it.
+
+There are no **states** in Turkey. The data structured as cities (city code and name), districts (name) and neighbourhoods (name). City codes are two digit text and they also known as plate number.
 
 There are couple of methods to interact with the data:
 ```js
