@@ -1,9 +1,7 @@
-.idea
+src/data/*.xlsx
+src/data/*.zip
 
-storage/resources/neighbourhoods/*
-storage/resources/distances/*
-!storage/resources/neighbourhoods/etag
-!storage/resources/distances/etag
+.idea
 
 **/.DS_Store
 

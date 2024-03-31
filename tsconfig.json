@@ -1,22 +1,15 @@
 {
   "extends": [
     "@tsconfig/strictest/tsconfig",
-    "@tsconfig/node18/tsconfig"
+    "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
+    "declaration": true,
     "outDir": "build",
     "baseUrl": ".",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
     "rootDir": "src",
-    "typeRoots": [
-      "node_modules/@types",
-      "types"
-    ]
-  },
-  "include": [
-    "src/**/*",
-    "types/**/*"
-  ]
+    "resolveJsonModule": true,
+    "module": "esnext",
+    "moduleResolution": "bundler"
+  }
 }

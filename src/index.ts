@@ -1,143 +1,106 @@
-import type {CityCode, CityName, City, CityListItem, CityCodeDistrictMap, CityCodeDistrictNeighbourhoodsMap,
-    DistanceChild, PostalCode} from 'turkey-neighbourhoods'
-import {distances} from './data/distances/distances.js'
-import {codes as cityCodes} from './data/city/codes.js'
-import {names as cityNames} from './data/city/names.js'
-import {list as cityList} from './data/city/list.js'
-import {postalCodes} from './data/postalCode/list.js'
-import {mapCodeDistricts} from './data/city/mapCodeDistricts.js'
-import {mapCodeDistrictNeighbourhoods} from './data/city/mapCodeDistrictNeighbourhoods.js'
+import { default as _distances } from './data/distances.json'
+import { default as _cityList } from './data/cityList.json'
+import { default as _cityCodes } from './data/cityCodes.json'
+import { default as _cityNames } from './data/cityNames.json'
+import { default as _cityNamesByCode } from './data/cityNamesByCode.json'
+import { default as _postalCodes } from './data/postalCodes.json'
+import { default as _districtsByCityCode } from './data/districtsByCityCode.json'
+import { default as _neighbourhoodsByDistrictAndCityCode } from './data/neighbourhoodsByDistrictAndCityCode.json'
 
-export const isObject = (v: unknown): v is object => {
-    return (!!v) && (v.constructor === Object)
-}
+export const distances = _distances
+export const cityList = _cityList
+export const cityCodes = _cityCodes
+export const cityNames = _cityNames
+export const cityNamesByCode = _cityNamesByCode
+export const postalCodes = _postalCodes
+export const districtsByCityCode = _districtsByCityCode
+export const neighbourhoodsByDistrictAndCityCode = _neighbourhoodsByDistrictAndCityCode
 
-export const isArray = (v: unknown): v is any[] => {
-    return (!!v) && (v.constructor === Array)
-}
-
-const titleCase = (text: string): string => {
-    return text
-        .toLocaleLowerCase('TR')
-        .split(' ')
-        .map(word => word.charAt(0).toLocaleUpperCase('TR') + word.slice(1))
-        .join(' ')
-}
-
-export const isCityCode = (v: unknown): v is CityCode => {
+export function isCityCode (v: unknown): boolean {
     return typeof v === 'string' && cityCodes.find((code) => code === v) !== undefined
 }
 
-export const isCityCodeLike = (v: unknown): boolean => {
-    if (typeof v === 'string') return isCityCode(v)
-    if (typeof v === 'number') return (v < 10 && v > 0) || (v < 82 && v > 0)
-    return false
-}
-
-export const castCityCode = (v: unknown): CityCode | '' => {
-    if (typeof v === 'number' && ((v < 10 && v > 0) || (v < 82 && v > 0))) {
-        return (v < 10 ? '0' + v.toString() : v.toString()) as CityCode
-    }
-
-    if (typeof v === 'string') {
-        const result = v.match(/[0-9]{2}/)
-        if (isArray(result) && isCityCode(result[0])) {
-            return result[0]
-        }
-    }
-
-    if (isCityCode(v)) {
-        return v
-    }
-
-    return ''
-}
-
-export const isCityName = (v: unknown): v is CityName => {
+export function isCityName (v: unknown): boolean {
     return typeof v === 'string' && cityNames.find((name) => name === v) !== undefined
 }
 
-export const isCityNameLike = (v: unknown): boolean => {
-    return typeof v === 'string' && isCityName(titleCase(v))
-}
-
-export const castCityName = (v: unknown): CityName | '' => {
-    return typeof v === 'string' && isCityNameLike(v) ? titleCase(v) as CityName : ''
-}
-
-export const isCity = (v: unknown): v is City => {
-    return typeof v === 'string' && (isCityCode(v) || isCityName(v))
-}
-
-export const findDistance = (code1: CityCode, code2: CityCode): number | undefined => {
+export function findDistance (code1: string, code2: string): number | undefined {
     if (isCityCode(code1) && isCityCode(code2)) {
-        if (Object.hasOwn(distances, code1)) {
-            if (Object.hasOwn(distances[code1], code2)) {
-                return distances[code1][code2]
+        if (code1 in distances) {
+            if (code2 in distances[code1 as keyof typeof distances]) {
+                // @ts-ignore
+                return distances[code1 as keyof typeof distances][code2]
             }
         }
     }
     return undefined
 }
 
-export const findClosestCities = (code: CityCode, threshold = 9999, limit = 100): {code: CityCode, distance: number}[] => {
+export function findClosestCities (code: string, threshold = 9999, limit = 100): {code: string, distance: number}[] {
     if (!Object.hasOwn(distances, code)) {
         return []
     }
 
-    const obj = distances[code] as DistanceChild
+    const obj = distances[code as keyof typeof distances]
 
     return Object
         .keys(obj)
         .sort((a: string, b: string) => {
-            return (obj[a as keyof DistanceChild] as number) < (obj[b as keyof DistanceChild] as number)
+            return obj[a as keyof typeof obj] < obj[b as keyof typeof obj]
                 ? -1
-                : (obj[a as keyof DistanceChild] as number) > (obj[b as keyof DistanceChild] as number)
+                : obj[a as keyof typeof obj] > obj[b as keyof typeof obj]
                     ? 1
                     : 0
         })
         .map((code2: string) => {
-            return {code: code2 as CityCode, distance: (obj[code2 as keyof DistanceChild] as number)}
+            return { code: code2, distance: obj[code2 as keyof typeof obj] }
         })
-        .filter((obj, i) => obj.distance <= threshold && i+1 <= limit)
+        // exclude itself
+        .filter((obj) => {
+            return obj.distance > 0
+        })
+        .filter((obj, i) => {
+            return obj.distance <= threshold && i+1 <= limit
+        })
 }
 
-export const getCityNames = (): CityName[] => {
+export function getCityNames () {
     return Array.from(cityNames)
 }
 
-export const getCityCodes = (): CityCode[] => {
+export function getCityCodes () {
     return Array.from(cityCodes)
 }
 
-export const getCities = (): CityListItem[] => {
+export function getCities () {
     return cityList
 }
 
-export const getPostalCodes = (): PostalCode[] => {
+export function getPostalCodes () {
     return Array.from(postalCodes)
 }
 
-export const isPostalCode = (v: unknown): v is PostalCode => {
+export function isPostalCode (v: unknown): boolean {
     return typeof v === 'string' && postalCodes.find((code) => code === v) !== undefined
 }
 
-export const getDistrictsByCityCode = (code: CityCode): string[] => {
-    return mapCodeDistricts[code] || []
+export function getDistrictsByCityCode (code: string) {
+    return districtsByCityCode[code as keyof typeof districtsByCityCode] ?? []
 }
 
-export const getDistrictsOfEachCity = (): CityCodeDistrictMap => {
-    return mapCodeDistricts
+export function getDistrictsOfEachCity () {
+    return districtsByCityCode
 }
 
-export const getDistrictsAndNeighbourhoodsByCityCode = (code: CityCode): {[index: string]: string[]} => {
-    return mapCodeDistrictNeighbourhoods[code] || {}
+export function getDistrictsAndNeighbourhoodsByCityCode (code: string) {
+    return neighbourhoodsByDistrictAndCityCode[code as keyof typeof neighbourhoodsByDistrictAndCityCode] || {}
 }
 
-export const getDistrictsAndNeighbourhoodsOfEachCity = (): CityCodeDistrictNeighbourhoodsMap => {
-    return mapCodeDistrictNeighbourhoods
+export function getDistrictsAndNeighbourhoodsOfEachCity () {
+    return neighbourhoodsByDistrictAndCityCode
 }
 
-export const getNeighbourhoodsByCityCodeAndDistrict = (code: CityCode, district: string): string[] => {
-    return (mapCodeDistrictNeighbourhoods[code] || {})[district] || []
+export function getNeighbourhoodsByCityCodeAndDistrict (code: string, district: string): string[] {
+    // @ts-ignore
+    return neighbourhoodsByDistrictAndCityCode[code as keyof typeof neighbourhoodsByDistrictAndCityCode][district] ?? []
 }

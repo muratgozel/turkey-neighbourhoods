@@ -89,6 +89,9 @@ export default {
 
     // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
     // moduleNameMapper: {},
+    moduleNameMapper: {
+        '^(\\.{1,2}/.*)\\.js$': '$1',
+    },
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
     // modulePathIgnorePatterns: [],
@@ -133,6 +136,9 @@ export default {
 
     // The paths to modules that run some code to configure or set up the testing environment before each test
     // setupFiles: [],
+    setupFiles: [
+        //'dotenv/config'
+    ],
 
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
     // setupFilesAfterEnv: [],
@@ -174,7 +180,12 @@ export default {
 
     // A map from regular expressions to paths to transformers
     // transform: undefined,
-    transform: {},
+    // transform: {},
+    transform: {
+        '^.+\\.(t|j)sx?$': '@swc/jest',
+    },
+
+    extensionsToTreatAsEsm: ['.ts', '.tsx'],
 
     // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
     // transformIgnorePatterns: [
